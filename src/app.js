@@ -7,6 +7,8 @@ import bodyParser from 'body-parser'
 import mongoose from 'mongoose'
 import apiRouter from './routes/api'
 import config from './utils/config'
+import ErrorResponseBody from './common/models/response/error_response_body'
+import { ResponseCode } from './common/constants/response'
 
 var app = express()
 
@@ -43,14 +45,9 @@ app.use(function(req, res, next) {
 })
 
 // error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message
-  res.locals.error = req.app.get('env') === 'development' ? err : {}
-
-  // render the error page
-  res.status(err.status || 500)
-  res.render('error')
+app.use(function(error, req, res, next) {
+  const responseBody = new ErrorResponseBody(error.message)
+  res.status(error.status || ResponseCode.INTERNAL_SERVER_ERROR).json(responseBody)
 })
 
 app.listen(config.port)
