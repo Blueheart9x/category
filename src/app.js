@@ -5,9 +5,8 @@ import cookieParser from 'cookie-parser'
 import logger from 'morgan'
 import bodyParser from 'body-parser'
 import mongoose from 'mongoose'
-
 import rootRouter from './routes/root'
-import config from '../utils/config'
+import config from './utils/config'
 
 var app = express()
 
@@ -16,7 +15,7 @@ const mongoOptions = {
   pass: config.dbPassword,
   useNewUrlParser: true
 }
-const mongoConnection = `mongodb://${config.dbUrl}/${config.dbName}?authSource=${config.dbName}`
+const mongoConnection = `mongodb://${config.dbHost}/${config.dbName}?authSource=${config.dbName}`
 
 mongoose.connect(mongoConnection, mongoOptions)
 mongoose.Promise = global.Promise
