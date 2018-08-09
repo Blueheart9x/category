@@ -5,17 +5,17 @@ import cookieParser from 'cookie-parser'
 import logger from 'morgan'
 import bodyParser from 'body-parser'
 import mongoose from 'mongoose'
-import rootRouter from './routes/root'
+import apiRouter from './routes/api'
 import config from './utils/config'
 
 var app = express()
 
 const mongoOptions = {
-  user: config.dbUsername,
-  pass: config.dbPassword,
+  user: config.db.username,
+  pass: config.db.password,
   useNewUrlParser: true
 }
-const mongoConnection = `mongodb://${config.dbHost}/${config.dbName}?authSource=${config.dbName}`
+const mongoConnection = `mongodb://${config.db.host}/${config.db.name}?authSource=${config.db.name}`
 
 mongoose.connect(mongoConnection, mongoOptions)
 mongoose.Promise = global.Promise
@@ -23,6 +23,7 @@ mongoose.Promise = global.Promise
 const db = mongoose.connection
 db.on('error', console.error.bind(console, 'MongoDB connection error:'))
 
+app.set('secret', config.secret)
 // view engine setup
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'pug')
@@ -34,7 +35,7 @@ app.use(cookieParser())
 app.use(bodyParser.json())
 app.use(express.static(path.join(__dirname, 'public')))
 
-app.use('/', rootRouter)
+app.use('/api', apiRouter)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
