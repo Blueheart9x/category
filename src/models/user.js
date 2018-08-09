@@ -13,7 +13,8 @@ const User = new Schema({
     isDeleted: {
         type: Boolean,
         default: false
-    }
+    },
+    versionKey: false
 }, {
     collection: "users"
 })

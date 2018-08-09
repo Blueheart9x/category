@@ -1,6 +1,6 @@
 class ApiError {
-    constructor(errorCode, message, locationType, location) {
-        this.code = errorCode
+    constructor(code, message, locationType, location) {
+        this.code = code
         this.message = message
         this.locationType = locationType
         this.location = location

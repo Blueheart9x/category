@@ -1,7 +1,7 @@
 import RequestUtil from '../utils/request'
 import ErrorResponseBody from '../common/models/response/error_response_body'
 import { ResponseCode } from '../common/constants/response'
-import CommonException from '../common/exceptions/common_exception'
+import CommonError from '../common/errors/common_error'
 import jwt from 'jsonwebtoken'
 
 export const verifyAuth = (req, res, next) => {
@@ -17,7 +17,7 @@ export const verifyAuth = (req, res, next) => {
         req.decoded = decodedToken
         next()
     } catch (error) {
-        throw new CommonException(ResponseCode.UNAUTHORIZED, 'Failed to authenticate token')
+        throw new CommonError(ResponseCode.UNAUTHORIZED, 'Failed to authenticate token')
     }
 }
 
