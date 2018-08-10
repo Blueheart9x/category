@@ -1,10 +1,4 @@
-let configData = {}
-if (process.env.NODE_ENV === undefined || process.env.NODE_ENV == null || process.env.NODE_ENV == 'development') {
-    configData = require('../../config/development.json')
-} else if (process.env.NODE_ENV == 'production') {
-    configData = require('../../config/production.json')
-} else {
-    configData = require('../../config/test.json')
-}
+const env = process.env.NODE_ENV ? process.env.NODE_ENV : 'development'
+const configData = require(`../../config/${env}.json`)
 
 export default configData
