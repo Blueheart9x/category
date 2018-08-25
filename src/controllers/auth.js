@@ -1,7 +1,7 @@
 import User from '../models/user'
 import ErrorResponseBody from '../common/models/response/error_response_body'
 import { ResponseCode } from '../common/constants/response'
-import EncryptionUtil from '../utils/encryption'
+import PasswordUtil from '../utils/password'
 import jwt from 'jsonwebtoken'
 import CommonError from '../common/errors/common_error'
 
@@ -19,7 +19,7 @@ export const authenticate = (req, res) => {
             throw new CommonError(ResponseCode.UNAUTHORIZED, "User not found")
         }
 
-        const isMatchPassword = await EncryptionUtil.comparePassword(password, user.password)
+        const isMatchPassword = await PasswordUtil.comparePassword(password, user.password)
 
         if (!isMatchPassword) {
             throw new CommonError(ResponseCode.UNAUTHORIZED, "Wrong password")

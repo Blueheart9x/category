@@ -2,8 +2,8 @@ import bcrypt from 'bcrypt'
 
 const BCRYPT_SALT_ROUNDS = 10
 
-class EncryptionUtil {
-    static async cryptPassword(plainPassword) {
+class PasswordUtil {
+    static async hashPassword(plainPassword) {
         return await bcrypt.hashSync(plainPassword, BCRYPT_SALT_ROUNDS)
     }
 
@@ -12,4 +12,4 @@ class EncryptionUtil {
     }
 }
 
-export default EncryptionUtil
+export default PasswordUtil
