@@ -1,5 +1,5 @@
-import mongoose from 'mongoose'
-import timestamps from 'mongoose-timestamp'
+import mongoose from "mongoose"
+import timestamps from "mongoose-timestamp"
 
 const Schema = mongoose.Schema
 

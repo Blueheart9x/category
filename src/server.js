@@ -1,13 +1,16 @@
-import express from 'express'
-import path from 'path'
-import cookieParser from 'cookie-parser'
-import logger from 'morgan'
-import bodyParser from 'body-parser'
-import mongoose from 'mongoose'
-import apiRouter from './routes/api'
-import config from './utils/config'
-import ErrorResponseBody from './common/models/response/error_response_body'
-import { ResponseCode } from './common/constants/response'
+import express from "express"
+import "express-async-errors"
+import path from "path"
+import cookieParser from "cookie-parser"
+import logger from "morgan"
+import bodyParser from "body-parser"
+import mongoose from "mongoose"
+import apiRouter from "./routes/api_router"
+import config from "./utils/config"
+import ErrorResponseBody from "./common/models/response/error_response_body"
+import { ResponseCode } from "./common/constants/response_consts"
+import cors from "cors"
+import { SecretStorage } from "./common/constants/system_consts"
 
 var app = express()
 
@@ -26,27 +29,29 @@ mongoose.connect(mongoConnection, mongoOptions)
 mongoose.Promise = global.Promise
 
 const db = mongoose.connection
-db.on('error', console.error.bind(console, 'MongoDB connection error:'))
+db.on("error", console.error.bind(console, "MongoDB connection error:"))
 
-app.set('secret', config.secret)
+app.set(SecretStorage.TOKEN, config.secret)
 
-app.use(logger('dev'))
+app.use(cors())
+app.use(logger("dev"))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
 app.use(bodyParser.json())
-app.use(express.static(path.join(__dirname, 'public')))
+app.use(express.static(path.join(__dirname, "public")))
 
-app.use('/api', apiRouter)
+app.use("/api", apiRouter)
 
 // handle 404
 app.use(function(req, res, next) {
-  const responseBody = new ErrorResponseBody('Endpoint not found')
+  const responseBody = new ErrorResponseBody("End-point not found")
   res.status(ResponseCode.NOT_FOUND).json(responseBody)
 })
 
 // handle error
 app.use(function(error, req, res, next) {
+  console.log(error)
   const responseBody = new ErrorResponseBody(error.message)
   res.status(error.status || ResponseCode.INTERNAL_SERVER_ERROR).json(responseBody)
 })
