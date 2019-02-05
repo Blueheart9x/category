@@ -3,7 +3,7 @@ class PagedResponseBody {
         if (items && items.length) {
             this.items = items
             offset ? this._prevOffset = offset - 1 : this._prevOffset = null
-            if (this._prevOffset) {
+            if (this._prevOffset === null) {
                 totalCount > this._prevOffset + items.length + 1 ? this._nextOffset = this._prevOffset + items.length + 1 : this._nextOffset = null
             } else {
                 totalCount > items.length ? this._nextOffset = items.length : this._nextOffset = null
