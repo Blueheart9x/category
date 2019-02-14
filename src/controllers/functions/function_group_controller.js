@@ -32,6 +32,20 @@ export const createOne = async (req, res) => {
     }
 }
 
+export const getOne = async (req, res) => {
+    const requestParams = req.params
+    const code = requestParams.code
+
+    const functionGroup = await getFunctionGroup(code)
+
+    if (!functionGroup) {
+        throw new CommonError(ResponseCode.NOT_FOUND, ErrorMessage.NOT_FOUND)
+    }
+
+    const responseBody = ResponseUtils.removeCommonUnnecessaryFields(functionGroup)
+    return res.status(ResponseCode.OK).json(responseBody)
+}
+
 const getFunctionGroup = async (code) => {
     const conditions = {
         code: code,
