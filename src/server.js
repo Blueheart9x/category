@@ -25,6 +25,7 @@ const mongoOptions = {
 
 const mongoConnection = `mongodb://${config.db.host}/${config.db.name}?authSource=${config.db.name}`
 
+mongoose.set("useCreateIndex", true)
 mongoose.connect(mongoConnection, mongoOptions)
 mongoose.Promise = global.Promise
 
@@ -52,7 +53,7 @@ app.use(function(req, res, next) {
 // handle error
 app.use(function(error, req, res, next) {
   console.log(error)
-  const responseBody = new ErrorResponseBody(error.message)
+  const responseBody = new ErrorResponseBody(error.message, error.errors)
   res.status(error.status || ResponseCode.INTERNAL_SERVER_ERROR).json(responseBody)
 })
 
