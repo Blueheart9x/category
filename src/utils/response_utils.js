@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken"
 import { SecretStorage } from "../common/constants/system_consts"
 import ApiError from "../common/models/response/api_error"
 import { ErrorCode, LocationType } from "../common/constants/response_consts"
+import omit from "object.omit"
 
 class ResponseUtils {
     static generateNewToken(req, user) {
@@ -35,6 +36,26 @@ class ResponseUtils {
 
         return errors
     }
+
+    static getCommonViews() {
+        return {
+            _id: false,
+            isDeleted: false,
+            updatedAt: false,
+            createdAt: false,
+            __v: false
+        }
+    }
+
+    static getCommonOmits() {
+        return ["_id", "isDeleted", "updatedAt", "createdAt", "__v"]
+    }
+
+    static removeCommonUnnecessaryFields(record) {
+        const skipFields = this.getCommonOmits()
+        return omit(record.toJSON(), skipFields)
+    }
+
 }
 
 export default ResponseUtils
