@@ -46,17 +46,51 @@ export const getOne = async (req, res) => {
     return res.status(ResponseCode.OK).json(responseBody)
 }
 
+export const deleteOne = async (req, res) => {
+    const requestParams = req.params
+    const code = requestParams.code
+
+    const functionGroup = await getFunctionGroup(code)
+
+    if (!functionGroup) {
+        throw new CommonError(ResponseCode.NOT_FOUND, ErrorMessage.NOT_FOUND)
+    }
+
+    const functionGroupUpdate = {
+        code: code,
+        isDeleted: true
+    }
+
+    await updateFunctionGroup(functionGroupUpdate)
+
+    return res.status(ResponseCode.NO_CONTENT).send()
+}
+
+export const getList = async (req, res) => {
+    const requestQuery = req.query
+    const { name, code, description, limit, offset, keyword } = requestQuery
+
+
+}
+const updateFunctionGroup = async (functionGroup) => {
+    const code = functionGroup.code
+    const conditions = {
+        code: code,
+        isDeleted: false
+    }
+
+    await FunctionGroup.findOneAndUpdate(conditions, {
+        $set: functionGroup
+    })
+}
+
 const getFunctionGroup = async (code) => {
     const conditions = {
         code: code,
         isDeleted: false
     }
 
-    const views = {
-        code: true,
-        name: true,
-        description: true
-    }
+    const views = ResponseUtils.getCommonViews()
 
     const functionGroup = await FunctionGroup.findOne(conditions, views)
 

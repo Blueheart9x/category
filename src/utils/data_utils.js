@@ -54,6 +54,10 @@ class DataUtils {
         const length = code ? code.length : 0
         return length >= CODE_MIN_LENGTH && length <= CODE_MAX_LENGTH && CODE_REGEX.test(code)
     }
+
+    static toDecimalInt(value) {
+        return Number.parseInt(value, 10)
+    }
 }
 
 export default DataUtils
