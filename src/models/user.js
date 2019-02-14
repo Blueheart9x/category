@@ -1,5 +1,6 @@
 import mongoose from "mongoose"
 import timestamps from "mongoose-timestamp"
+import { Collection } from "../common/constants/database_consts"
 
 const Schema = mongoose.Schema
 
@@ -16,7 +17,7 @@ const User = new Schema({
     },
     versionKey: false
 }, {
-    collection: "users"
+    collection: Collection.USER
 })
 
 User.plugin(timestamps)
