@@ -1,7 +1,8 @@
 class CommonError {
-    constructor(status, message) {
+    constructor(status, message, errors) {
         this.status = status
         this.message = message
+        this.errors = errors
     }
 }
 
