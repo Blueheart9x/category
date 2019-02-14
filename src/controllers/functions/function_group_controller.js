@@ -19,7 +19,9 @@ export const createOne = async (req, res) => {
     }
 
     try {
-        await FunctionGroup.create(requestBody)
+        const result = await FunctionGroup.create(requestBody)
+        const responseBody = ResponseUtils.removeCommonUnnecessaryFields(result)
+        return res.status(ResponseCode.CREATED).json(responseBody)
     } catch (error) {
         if (!(error instanceof ValidationError)) {
             throw error 
