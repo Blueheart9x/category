@@ -1,7 +1,7 @@
 import chai from 'chai'
 import chaiHttp from 'chai-http'
 import server from '../../src/server'
-import { ResponseCode } from '../../src/common/constants/response'
+import { ResponseCode } from '../../src/common/constants/response_consts'
 const should = chai.should()
 
 chai.use(chaiHttp)

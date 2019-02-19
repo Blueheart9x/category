@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken"
 import DataUtils from "./data_utils"
 import { ExceptionType } from "../common/constants/exception_consts"
-import CommonException from "../common/exceptions/common_exception";
+import CommonException from "../common/exceptions/common_exception"
 
 class RequestUtils {
     static getTokenFromRequest(req) {
@@ -47,6 +47,15 @@ class RequestUtils {
             limit: DataUtils.toDecimalInt(limit),
             skip: DataUtils.toDecimalInt(offset)
         }
+    }
+
+    static getDefaultPage() {
+        const page = {
+            limit: Number.MAX_SAFE_INTEGER,
+            skip: 0
+        }
+
+        return page
     }
 }
 
