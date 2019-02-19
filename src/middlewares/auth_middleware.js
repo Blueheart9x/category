@@ -19,7 +19,6 @@ export const verifyAuth = (req, res, next) => {
         res.header("new-token", newToken)
         next()
     } catch (error) {
-        console.log(error)
         throw new CommonError(ResponseCode.UNAUTHORIZED, "Failed to authenticate token")
     }
 }
